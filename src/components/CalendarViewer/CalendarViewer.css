@@ -1,1 +1,22 @@
 
+.calendar-viewer {
+    width: 100%;
+    padding: 20px;
+}
+
+.wrap-event-rules {
+    margin-left: 10px;
+}
+
+.wrap-event-rules i {
+    cursor: pointer;
+    transition: transform .3s;
+}
+
+.wrap-event-rules i:hover {
+    transform: scale(1.2);
+}
+
+.calendar-viewer .ant-fullcalendar-header {
+    display: none;
+}

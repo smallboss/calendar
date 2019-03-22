@@ -1,76 +1,90 @@
 import React, {Component} from 'react';
+import moment from 'moment';
 
-import {Calendar, Badge} from 'antd';
+import {List, Typography, Icon} from 'antd';
 
-import './CalendarYear.css';
+import * as Utils from '../../../utils/utils';
+
+import './CalendarDay.css';
 import ActionTypes from "../../../redux/constants/actionTypes";
 import {connect} from "react-redux";
 
 
-class CalendarViewer extends Component {
 
-    getListData(value) {
+class CalendarDay extends Component {
 
-        const { eventTypeList, eventList } = this.props;
+    state = {
+        selectedDate: new moment(),
+    };
 
-        let listData = {};
+    getListData() {
+        const { eventList, selectedDate, checkedEventTypeList } = this.props;
+        const selectedTime = new moment(selectedDate, 'x');
 
-        eventTypeList.forEach( eventType => listData[eventType] = 0);
+        let listData = [];
 
-        eventList.forEach( event => {
-            if ( event.date.start.month() === value.month() ) {
-                const currEventType = eventTypeList[ event.selectedEventType ];
-                if ( listData[ currEventType ] === undefined )  {
-                    listData[ currEventType ] = 0;
-                }
+        eventList.forEach( eventItem => {
+            const momentTime = new moment(eventItem.date, 'x');
 
-                listData[ currEventType ]++;
+            const isAllowEventType = checkedEventTypeList.indexOf( eventItem.selectedEventType ) > -1;
+
+            if ( momentTime.year()  === selectedTime.year()  &&
+                 momentTime.month() === selectedTime.month() &&
+                 momentTime.date()  === selectedTime.date()  && isAllowEventType)
+            {
+
+                const isExpired = (momentTime < Date.now()) ? 'danger' : 'success';
+                listData.push({ ...eventItem, isExpired });
             }
         });
 
-        return listData;
+        return Utils.sortArrayByKey(listData, 'date');
     }
 
-    dateListRender(value) {
 
-        const listData = this.getListData(value);
-
-        let eventCount = 0;
-        const renderData = [];
-
-        for( let eventLine in listData ) {
-            eventCount += listData[ eventLine ];
-            renderData.push({
-                eventType: eventLine,
-                eventCount: listData[ eventLine ]
-            });
-        }
-
-        if ( eventCount ) {
-            return (
-                <div className="events">
-                    {
-                        renderData.map((item, index) => {
-                            if ( item.eventCount ) {
-                                return (
-                                    <div key={index} className="row-year-event">
-                                        <Badge count={item.eventCount} showZero
-                                               style={{backgroundColor: '#52c41a'}}/> <span className="event-type-year">{item.eventType}</span>
-                                    </div>
-                                )
-                            }
-                        })
-                    }
-                </div>
-            )
-        }
-    }
 
     render() {
 
+        const { selectedDate, deleteEvent, toEditEvent } = this.props;
+        const selectedTime = new moment(selectedDate, 'x');
+
+        const listData = this.getListData();
+
+        const getlistItemRender = (eventItem) => {
+            const momentTime = new moment(eventItem.date, 'x');
+
+            if ( eventItem.date < Date.now() )
+                return (
+                    <List.Item>
+                        <Typography.Text delete>[{momentTime.format('HH:mm')}]</Typography.Text>
+                        { eventItem.eventTitle }
+                        <span className="wrap-event-rules">
+                            <Icon type="edit" onClick={() => toEditEvent(eventItem.id)} />
+                            <Icon type="close-circle" style={{ marginLeft: 10 }} onClick={() => deleteEvent(eventItem.id)} />
+                        </span>
+                    </List.Item>
+                );
+            else
+                return (
+                    <List.Item>
+                        <Typography.Text mark>[{momentTime.format('HH:mm')}]</Typography.Text>
+                        { eventItem.eventTitle }
+                        <span className="wrap-event-rules">
+                            <Icon type="edit" onClick={() => toEditEvent(eventItem.id)} />
+                            <Icon type="close-circle" style={{ marginLeft: 10 }} onClick={() => deleteEvent(eventItem.id)} />
+                        </span>
+                    </List.Item>
+                )
+        };
+
         return (
-            <div className="calendar-viewer">
-                <Calendar mode="year" monthCellRender={this.dateListRender.bind(this)}/>
+            <div className="wrap-list-day">
+                <List
+                    header={<div className="list-header-day">{ selectedTime.format('D dddd') }</div>}
+                    bordered
+                    dataSource={listData}
+                    renderItem={eventItem => getlistItemRender(eventItem)}
+                />
             </div>
         );
     }
@@ -81,6 +95,8 @@ const mapStateToProps = state => {
     return {
         eventTypeList: state.root.eventTypeList,
         eventList: state.root.eventList,
+        selectedDate: state.root.selectedDate,
+        checkedEventTypeList: state.root.checkedEventTypeList,
     }
 };
 
@@ -101,8 +117,13 @@ const mapDispatchToProps = dispatch => {
         },
 
         addEvent: (eventData) => {
-            console.log('eventData', eventData);
             dispatch({type: ActionTypes.ADD_EVENT, payload: eventData});
+        },
+        deleteEvent: (eventId) => {
+            dispatch({type: ActionTypes.DELETE_EVENT, payload: eventId});
+        },
+        toEditEvent: (eventId) => {
+            dispatch({type: ActionTypes.TO_EDIT_EVENT, payload: eventId});
         },
     }
 };
@@ -110,4 +131,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(CalendarViewer);
+)(CalendarDay);

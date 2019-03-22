@@ -1,23 +1,15 @@
 import keyMirror from 'keymirror';
 
 export default keyMirror({
-    USER_LOGIN: null,
-    USER_LOGOUT: null,
+    SET_CURR_VIEW_TYPE: null,
+    CHANGE_CHECKED_EVENT_TYPE_LIST: null,
 
-    INIT_MODEL_LIST: null,
-    DELETE_MODEL: null,
-    // ADD_PASSWORD: null,
-    // REMOVE_PASSWORD: null,
-    // EDIT_PASSWORD: null,
-    //
-    INIT_CURR_MODEL: null,
-    CLEAR_CURR_MODEL: null,
-    SET_CURR_MODEL_NAME: null,
-    // SET_MSG: null
+    CHANGE_TYPE_VIEW: null,
 
-    ADD_ACTIVE_TAG: null,
-    CLEAR_ACTIVE_TAGS: null,
-    TOGGLE_ACTIVE_TAG: null,
-    ADD_TAG_CURR_MODEL: null,
-    REMOVE_TAG_CURR_MODEL: null,
+    OPEN_CREATE_EVENT: null,
+    CANCEL_CREATE_EVENT: null,
+
+    SAVE_EVENT: null,
+    DELETE_EVENT: null,
+    TO_EDIT_EVENT: null,
 });

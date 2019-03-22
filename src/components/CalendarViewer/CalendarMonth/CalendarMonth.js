@@ -2,94 +2,61 @@ import React, {Component} from 'react';
 
 import {Calendar, Badge} from 'antd';
 
-import './CalendarYear.css';
 import ActionTypes from "../../../redux/constants/actionTypes";
 import {connect} from "react-redux";
 
+import * as Utils from '../../../utils/utils';
 
-class CalendarViewer extends Component {
+import './CalendarMonth.css';
+import moment from "moment/moment";
 
-    getMonthData(value) {
-        // this.props.
-        if (value.month() === 8) {
-            return 1394;
-        }
-    }
+class CalendarMonth extends Component {
 
-    monthCellRender(value) {
-        const num = this.getMonthData(value);
-        return num ? (
-            <div className="notes-month">
-                <section>{num}</section>
-                <span>Backlog number</span>
-            </div>
-        ) : null;
-    }
+    getListData(value) {
+        const { eventList, checkedEventTypeList } = this.props;
 
-    // =======================
+        let listData = [];
 
-    getYearData(value) {
+        eventList.forEach( eventItem => {
+            const momentTime = new moment(eventItem.date, 'x');
+            const isAllowEventType = checkedEventTypeList.indexOf( eventItem.selectedEventType ) > -1;
 
-        const { eventTypeList, eventList } = this.props;
-
-        let listData = {};
-
-        eventTypeList.forEach( eventType => listData[eventType] = 0);
-
-        eventList.forEach( event => {
-            if ( event.date.start.month() === value.month() ) {
-                const currEventType = eventTypeList[ event.selectedEventType ];
-                if ( listData[ currEventType ] === undefined )  {
-                    listData[ currEventType ] = 0;
-                }
-
-                listData[ currEventType ]++;
+            if ( momentTime.month() === value.month() &&
+                 momentTime.date()  === value.date()  && isAllowEventType )
+            {
+                const isExpired = (momentTime < Date.now()) ? 'error' : 'success';
+                listData.push({ ...eventItem, isExpired });
             }
         });
 
-        return listData;
+        return Utils.sortArrayByKey(listData, 'date');
     }
 
-    dateYearRender(value) {
-
-        const listData = this.getYearData(value);
-
-        let eventCount = 0;
-        const renderData = [];
-
-        for( let eventLine in listData ) {
-            eventCount += listData[ eventLine ];
-            renderData.push({
-                eventType: eventLine,
-                eventCount: listData[ eventLine ]
-            });
-        }
-
-        if ( eventCount ) {
-            return (
-                <div className="events">
-                    {
-                        renderData.map((item, index) => {
-                            if ( item.eventCount ) {
-                                return (
-                                    <div key={index}>
-                                        <Badge count={item.eventCount} showZero
-                                               style={{backgroundColor: '#52c41a'}}/> {item.eventType}
-                                    </div>
-                                )
-                            }
-                        })
-                    }
-                </div>
-            )
-        }
+    dateListRender(value) {
+        const listData = this.getListData(value);
+        return (
+            <div className="events">
+                {
+                    listData.map( (eventItem, index) => (
+                        <div key={index}>
+                            <Badge status={eventItem.isExpired} text={eventItem.eventTitle} />
+                        </div>
+                    ))
+                }
+            </div>
+        );
     }
+
 
     render() {
 
+        const { selectedDate, changeTypeView } = this.props;
+        const selectedTime = new moment(selectedDate, 'x');
+
         return (
             <div className="calendar-viewer">
-                <Calendar mode="year" monthCellRender={this.dateYearRender.bind(this)}/>
+                <div className="list-header-day">{ `${selectedTime.format('YYYY MMMM')}` }</div>
+                <Calendar value={selectedTime} mode="month" dateCellRender={this.dateListRender.bind(this)} onSelect={changeTypeView}/>
             </div>
         );
     }
@@ -100,6 +67,8 @@ const mapStateToProps = state => {
     return {
         eventTypeList: state.root.eventTypeList,
         eventList: state.root.eventList,
+        selectedDate: state.root.selectedDate,
+        checkedEventTypeList: state.root.checkedEventTypeList,
     }
 };
 
@@ -112,6 +81,14 @@ const mapDispatchToProps = dispatch => {
             dispatch({type: ActionTypes.CHANGE_CHECKED_EVENT_TYPE_LIST, payload: checkedEventTypeList});
         },
 
+        changeTypeView: ( selectedDate ) => {
+            const payload = {
+                currViewType: 1,
+                selectedDate: selectedDate
+            };
+            dispatch({type: ActionTypes.CHANGE_TYPE_VIEW, payload: payload});
+        },
+
         openCreateEvent: () => {
             dispatch({type: ActionTypes.OPEN_CREATE_EVENT});
         },
@@ -120,7 +97,6 @@ const mapDispatchToProps = dispatch => {
         },
 
         addEvent: (eventData) => {
-            console.log('eventData', eventData);
             dispatch({type: ActionTypes.ADD_EVENT, payload: eventData});
         },
     }
@@ -129,4 +105,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(CalendarViewer);
+)(CalendarMonth);

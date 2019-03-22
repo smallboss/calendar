@@ -2,43 +2,28 @@ import React, {Component} from 'react';
 
 import {Calendar, Badge} from 'antd';
 
-import './CalendarMonth.css';
+import './CalendarYear.css';
 import ActionTypes from "../../../redux/constants/actionTypes";
 import {connect} from "react-redux";
+import moment from "moment/moment";
 
 
-class CalendarViewer extends Component {
+class CalendarYear extends Component {
 
-    getMonthData(value) {
-        // this.props.
-        if (value.month() === 8) {
-            return 1394;
-        }
-    }
+    getListData(value) {
 
-    monthCellRender(value) {
-        const num = this.getMonthData(value);
-        return num ? (
-            <div className="notes-month">
-                <section>{num}</section>
-                <span>Backlog number</span>
-            </div>
-        ) : null;
-    }
-
-    // =======================
-
-    getYearData(value) {
-
-        const { eventTypeList, eventList } = this.props;
+        const { eventTypeList, eventList, checkedEventTypeList } = this.props;
 
         let listData = {};
 
         eventTypeList.forEach( eventType => listData[eventType] = 0);
 
-        eventList.forEach( event => {
-            if ( event.date.start.month() === value.month() ) {
-                const currEventType = eventTypeList[ event.selectedEventType ];
+        eventList.forEach( eventItem => {
+            const momentTime = new moment(eventItem.date, 'x');
+            const isAllowEventType = checkedEventTypeList.indexOf( eventItem.selectedEventType ) > -1;
+
+            if ( momentTime.month() === value.month() && isAllowEventType ) {
+                const currEventType = eventTypeList[ eventItem.selectedEventType ];
                 if ( listData[ currEventType ] === undefined )  {
                     listData[ currEventType ] = 0;
                 }
@@ -50,9 +35,9 @@ class CalendarViewer extends Component {
         return listData;
     }
 
-    dateYearRender(value) {
+    dateListRender(value) {
 
-        const listData = this.getYearData(value);
+        const listData = this.getListData(value);
 
         let eventCount = 0;
         const renderData = [];
@@ -70,14 +55,18 @@ class CalendarViewer extends Component {
                 <div className="events">
                     {
                         renderData.map((item, index) => {
+                            let eventTypeDataRender = null;
+
                             if ( item.eventCount ) {
-                                return (
-                                    <div key={index}>
+                                eventTypeDataRender = (
+                                    <div key={index} className="row-year-event">
                                         <Badge count={item.eventCount} showZero
-                                               style={{backgroundColor: '#52c41a'}}/> {item.eventType}
+                                               style={{backgroundColor: '#52c41a'}}/> <span className="event-type-year">{item.eventType}</span>
                                     </div>
                                 )
                             }
+
+                            return eventTypeDataRender;
                         })
                     }
                 </div>
@@ -85,11 +74,16 @@ class CalendarViewer extends Component {
         }
     }
 
+
     render() {
+
+        const { selectedDate, changeTypeView } = this.props;
+        const selectedTime = new moment(selectedDate, 'x');
 
         return (
             <div className="calendar-viewer">
-                <Calendar mode="year" monthCellRender={this.dateYearRender.bind(this)}/>
+                <div className="list-header-day">{ selectedTime.year() }</div>
+                <Calendar value={selectedTime} mode="year" monthCellRender={this.dateListRender.bind(this)} onSelect={changeTypeView}/>
             </div>
         );
     }
@@ -100,6 +94,8 @@ const mapStateToProps = state => {
     return {
         eventTypeList: state.root.eventTypeList,
         eventList: state.root.eventList,
+        selectedDate: state.root.selectedDate,
+        checkedEventTypeList: state.root.checkedEventTypeList,
     }
 };
 
@@ -111,6 +107,13 @@ const mapDispatchToProps = dispatch => {
         changeCheckedEventTypeList: ( checkedEventTypeList ) => {
             dispatch({type: ActionTypes.CHANGE_CHECKED_EVENT_TYPE_LIST, payload: checkedEventTypeList});
         },
+        changeTypeView: ( selectedDate ) => {
+            const payload = {
+                currViewType: 2,
+                selectedDate
+            };
+            dispatch({type: ActionTypes.CHANGE_TYPE_VIEW, payload: payload});
+        },
 
         openCreateEvent: () => {
             dispatch({type: ActionTypes.OPEN_CREATE_EVENT});
@@ -120,7 +123,6 @@ const mapDispatchToProps = dispatch => {
         },
 
         addEvent: (eventData) => {
-            console.log('eventData', eventData);
             dispatch({type: ActionTypes.ADD_EVENT, payload: eventData});
         },
     }
@@ -129,4 +131,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(CalendarViewer);
+)(CalendarYear);

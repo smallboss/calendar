@@ -1,1 +1,8 @@
 
+.row-year-event {
+    display: flex;
+}
+
+.event-type-year {
+    margin-left: 5px;
+}

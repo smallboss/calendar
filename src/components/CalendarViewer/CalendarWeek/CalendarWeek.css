@@ -6,3 +6,11 @@
 .event-type-year {
     margin-left: 5px;
 }
+
+.wrap-list-week .ant-col-8 {
+    height: 28vh;
+}
+
+.wrap-list-week .ant-list-item, .wrap-list-week .ant-card {
+    height: 100% !important;
+}
