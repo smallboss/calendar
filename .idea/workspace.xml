@@ -2,30 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b12a4293-dada-482d-87b2-9fdfc4f1e127" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change beforePath="$PROJECT_DIR$/public/manifest.json" afterPath="$PROJECT_DIR$/public/manifest.json" />
-      <change beforePath="$PROJECT_DIR$/src/components/App.css" afterPath="$PROJECT_DIR$/src/components/App.css" />
-      <change beforePath="$PROJECT_DIR$/src/components/App.js" afterPath="$PROJECT_DIR$/src/components/App.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarDay/CalendarDay.css" afterPath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarDay/CalendarDay.css" />
-      <change beforePath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarDay/CalendarDay.js" afterPath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarDay/CalendarDay.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarMonth/CalendarMonth.js" afterPath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarMonth/CalendarMonth.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarViewer.css" afterPath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarViewer.css" />
-      <change beforePath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarViewer.js" afterPath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarViewer.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarWeek/CalendarWeek.css" afterPath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarWeek/CalendarWeek.css" />
-      <change beforePath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarWeek/CalendarWeek.js" afterPath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarWeek/CalendarWeek.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarYear/CalendarYear.css" afterPath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarYear/CalendarYear.css" />
-      <change beforePath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarYear/CalendarYear.js" afterPath="$PROJECT_DIR$/src/components/CalendarViewer/CalendarYear/CalendarYear.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/SidePanel/CreateEvent/CreateEvent.css" afterPath="$PROJECT_DIR$/src/components/SidePanel/CreateEvent/CreateEvent.css" />
-      <change beforePath="$PROJECT_DIR$/src/components/SidePanel/CreateEvent/CreateEvent.js" afterPath="$PROJECT_DIR$/src/components/SidePanel/CreateEvent/CreateEvent.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/SidePanel/SidePanel.css" afterPath="$PROJECT_DIR$/src/components/SidePanel/SidePanel.css" />
-      <change beforePath="$PROJECT_DIR$/src/components/SidePanel/SidePanel.js" afterPath="$PROJECT_DIR$/src/components/SidePanel/SidePanel.js" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" afterPath="$PROJECT_DIR$/src/index.css" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" afterPath="$PROJECT_DIR$/src/index.js" />
-      <change beforePath="$PROJECT_DIR$/src/redux/actions/index.js" afterPath="$PROJECT_DIR$/src/redux/actions/index.js" />
-      <change beforePath="$PROJECT_DIR$/src/redux/constants/actionTypes.js" afterPath="$PROJECT_DIR$/src/redux/constants/actionTypes.js" />
-      <change beforePath="$PROJECT_DIR$/src/redux/reducers/index.js" afterPath="$PROJECT_DIR$/src/redux/reducers/index.js" />
-      <change beforePath="$PROJECT_DIR$/src/redux/reducers/root.js" afterPath="$PROJECT_DIR$/src/redux/reducers/root.js" />
-      <change beforePath="$PROJECT_DIR$/src/utils/utils.js" afterPath="$PROJECT_DIR$/src/utils/utils.js" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -408,12 +385,12 @@
       <workItem from="1552940476437" duration="9948000" />
       <workItem from="1552981756937" duration="3634000" />
       <workItem from="1553028875461" duration="7398000" />
-      <workItem from="1553103578476" duration="61695000" />
+      <workItem from="1553103578476" duration="61741000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="82675000" />
+    <option name="totallyTimeSpent" value="82721000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -715,17 +692,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="-430">
-            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/serviceWorker.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-867">
@@ -835,6 +801,17 @@
         <state relative-caret-position="-1037">
           <caret line="15" column="16" lean-forward="false" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
