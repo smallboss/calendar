@@ -1,0 +1,12 @@
+
+.side-panel {
+    display: flex;
+    flex-direction: column;
+    width: 340px;
+    padding: 20px;
+}
+
+.wrap-event-types {
+    display: flex !important;
+    flex-direction: column !important;
+}
